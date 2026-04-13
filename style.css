@@ -1,0 +1,224 @@
+:root {
+    --primary-purple: #9356f7;
+    --bg-gradient: linear-gradient(135deg, #a060f9 0%, #6386f0 100%);
+    --card-bg: #ffffff;
+    --text-main: #494c6b;
+    --text-muted: #9495a5;
+    --border-color: #e3e4f1;
+    --high-priority: #ff5252;
+    --tag-bg: #f1f2f7;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg-gradient);
+    /* Mimicking the image's mountain vibe with a background height */
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: var(--text-main);
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.todo-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    padding: 24px;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+}
+
+.todo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.title-section h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.priority-badge {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #ffeeee;
+    color: var(--high-priority);
+    font-weight: 700;
+}
+
+.status-indicator {
+    font-size: 0.85rem;
+    color: var(--primary-purple);
+    font-weight: 600;
+}
+
+.todo-body .description {
+    font-size: 0.95rem;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.tag {
+    background: var(--tag-bg);
+    color: var(--text-main);
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 0.8rem;
+}
+
+.todo-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid var(--border-color);
+    padding-top: 20px;
+}
+
+.date-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.due-date {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.time-remaining {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Custom Checkbox */
+.checkbox-container {
+    position: relative;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 24px;
+    width: 24px;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    border-color: var(--primary-purple);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background: var(--bg-gradient);
+    border: none;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 4px;
+    transition: color 0.2s;
+    display: flex;
+}
+
+.icon-btn:hover { color: var(--primary-purple); }
+.icon-btn.delete:hover { color: var(--high-priority); }
+
+/* Completed State Classes */
+.is-completed h2 {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+/* Responsive Focus Styles */
+button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--primary-purple);
+    outline-offset: 4px;
+}
+
+@media (max-width: 480px) {
+    .todo-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    .actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}

@@ -22,7 +22,7 @@
 body {
     font-family: 'Inter', -apple-system, sans-serif;
     background: var(--bg-gradient);
-    /* Mimicking the image's mountain vibe with a background height */
+    
     background-attachment: fixed;
     min-height: 100vh;
     display: flex;

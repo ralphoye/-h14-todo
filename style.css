@@ -6,7 +6,11 @@
     --text-muted: #9495a5;
     --border-color: #e3e4f1;
     --high-priority: #ff5252;
+    --medium-priority: #ffa726;
+    --low-priority: #66bb6a;
     --tag-bg: #f1f2f7;
+    --overdue-red: #ff5252;
+    --in-progress-blue: #29b6f6;
 }
 
 * {
@@ -46,6 +50,14 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 16px;
+    gap: 12px;
+}
+
+.title-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
 }
 
 .title-section h2 {
@@ -53,6 +65,27 @@ body {
     font-weight: 700;
     margin-bottom: 8px;
     line-height: 1.3;
+}
+
+.priority-indicator {
+    width: 4px;
+    height: 100%;
+    border-radius: 2px;
+    margin-top: 2px;
+    background: var(--high-priority);
+    transition: background 0.3s ease;
+}
+
+.priority-indicator.priority-low {
+    background: var(--low-priority);
+}
+
+.priority-indicator.priority-medium {
+    background: var(--medium-priority);
+}
+
+.priority-indicator.priority-high {
+    background: var(--high-priority);
 }
 
 .priority-badge {
@@ -72,11 +105,73 @@ body {
     font-weight: 600;
 }
 
+.status-control-wrapper {
+    flex-shrink: 0;
+}
+
+.status-control {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background: var(--card-bg);
+    color: var(--text-main);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.status-control:hover {
+    border-color: var(--primary-purple);
+}
+
+.status-control:focus-visible {
+    outline: 2px solid var(--primary-purple);
+    outline-offset: 2px;
+}
+
 .todo-body .description {
     font-size: 0.95rem;
     color: var(--text-main);
     line-height: 1.6;
     margin-bottom: 20px;
+}
+
+.description-wrapper {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.collapsible-section {
+    max-height: 100px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.collapsible-section.expanded {
+    max-height: none;
+    overflow: visible;
+}
+
+.expand-toggle {
+    background: none;
+    border: none;
+    color: var(--primary-purple);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 4px 0;
+    transition: color 0.2s;
+}
+
+.expand-toggle:hover {
+    color: var(--primary-purple);
+    text-decoration: underline;
+}
+
+.expand-toggle:focus-visible {
+    outline: 2px solid var(--primary-purple);
+    outline-offset: 2px;
 }
 
 .tags-container {
@@ -108,6 +203,24 @@ body {
     gap: 4px;
 }
 
+.overdue-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: transparent;
+    margin-bottom: 4px;
+}
+
+.overdue-indicator.overdue {
+    background: var(--overdue-red);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
 .due-date {
     font-size: 0.85rem;
     font-weight: 600;
@@ -116,6 +229,12 @@ body {
 .time-remaining {
     font-size: 0.8rem;
     color: var(--text-muted);
+    transition: color 0.3s;
+}
+
+.time-remaining.overdue-text {
+    color: var(--overdue-red);
+    font-weight: 600;
 }
 
 .actions {
@@ -194,6 +313,42 @@ body {
     color: var(--text-muted);
 }
 
+.is-completed {
+    opacity: 0.7;
+}
+
+.is-completed .description {
+    color: var(--text-muted);
+}
+
+.is-completed .time-remaining {
+    display: none;
+}
+
+.is-completed .time-remaining.completed-text {
+    display: block;
+    color: var(--text-muted);
+}
+
+/* In Progress State */
+.status-in-progress {
+    border-left: 4px solid var(--in-progress-blue);
+}
+
+.status-in-progress .priority-indicator {
+    background: var(--in-progress-blue);
+}
+
+/* Overdue State */
+.is-overdue .priority-indicator,
+.is-overdue .status-control {
+    border-color: var(--overdue-red);
+}
+
+.is-overdue .due-date {
+    color: var(--overdue-red);
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -205,10 +360,126 @@ body {
     border: 0;
 }
 
+/* Edit Form Styles */
+.todo-edit-mode {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 0.95rem;
+    color: var(--text-main);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus-visible,
+.form-textarea:focus-visible,
+.form-select:focus-visible {
+    outline: 2px solid var(--primary-purple);
+    outline-offset: 2px;
+    border-color: var(--primary-purple);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.btn-primary {
+    background: var(--bg-gradient);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(147, 86, 247, 0.3);
+}
+
+.btn-primary:focus-visible {
+    outline: 2px solid var(--primary-purple);
+    outline-offset: 4px;
+}
+
+.btn-secondary {
+    background: var(--tag-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: var(--border-color);
+}
+
+.btn-secondary:focus-visible {
+    outline: 2px solid var(--primary-purple);
+    outline-offset: 4px;
+}
+
 /* Responsive Focus Styles */
 button:focus-visible, input:focus-visible {
     outline: 2px solid var(--primary-purple);
     outline-offset: 4px;
+}
+
+@media (max-width: 768px) {
+    .todo-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .status-control-wrapper {
+        width: 100%;
+    }
+
+    .status-control {
+        width: 100%;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -217,8 +488,43 @@ button:focus-visible, input:focus-visible {
         align-items: flex-start;
         gap: 16px;
     }
+
     .actions {
         width: 100%;
         justify-content: flex-end;
+    }
+
+    .title-section {
+        flex-direction: column;
+    }
+
+    .priority-indicator {
+        width: 100%;
+        height: 4px;
+        margin-top: 0;
+    }
+
+    .form-group {
+        gap: 6px;
+    }
+
+    .form-group label {
+        font-size: 0.85rem;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+        font-size: 0.9rem;
+        padding: 8px 10px;
+    }
+
+    .todo-card {
+        padding: 16px;
+    }
+
+    .priority-badge {
+        font-size: 0.65rem;
+        padding: 3px 6px;
     }
 }

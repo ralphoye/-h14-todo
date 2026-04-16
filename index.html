@@ -11,48 +11,99 @@
     <main class="container">
         <article class="todo-card" data-testid="test-todo-card">
             
-            <div class="todo-header">
-                <div class="title-section">
-                    <h2 id="todo-title" data-testid="test-todo-title">Complete Frontend Mentor Project</h2>
-                    <span class="priority-badge priority-high" data-testid="test-todo-priority" aria-label="High Priority">High</span>
+            <!-- VIEW MODE -->
+            <div class="todo-view-mode" id="todo-view-mode">
+                <div class="todo-header">
+                    <div class="title-section">
+                        <div class="priority-indicator" data-testid="test-todo-priority-indicator"></div>
+                        <h2 id="todo-title" data-testid="test-todo-title">Complete Frontend Mentor Project</h2>
+                        <span class="priority-badge priority-high" data-testid="test-todo-priority" aria-label="High Priority">High</span>
+                    </div>
+                    <div class="status-control-wrapper">
+                        <label for="status-select" class="sr-only">Task Status</label>
+                        <select id="status-select" class="status-control" data-testid="test-todo-status-control" aria-label="Task Status">
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Done">Done</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="status-indicator" data-testid="test-todo-status">Pending</div>
+
+                <div class="todo-body">
+                    <div class="description-wrapper">
+                        <div class="collapsible-section" data-testid="test-todo-collapsible-section" id="collapsible-content">
+                            <p class="description" data-testid="test-todo-description">
+                                Finish the implementation of the Todo app using semantic HTML, CSS Grid, and responsive design principles. Ensure all automated tests pass.
+                            </p>
+                        </div>
+                        <button class="expand-toggle" data-testid="test-todo-expand-toggle" aria-expanded="false" aria-controls="collapsible-content" id="expand-toggle-btn">
+                            Show more
+                        </button>
+                    </div>
+
+                    <div class="tags-container" data-testid="test-todo-tags" role="list">
+                        <span class="tag" data-testid="test-todo-tag-work" role="listitem">Work</span>
+                        <span class="tag" data-testid="test-todo-tag-urgent" role="listitem">Urgent</span>
+                        <span class="tag" role="listitem">Design</span>
+                    </div>
+                </div>
+
+                <div class="todo-footer">
+                    <div class="date-info">
+                        <div class="overdue-indicator" data-testid="test-todo-overdue-indicator"></div>
+                        <time class="due-date" id="due-date-display" data-testid="test-todo-due-date"></time>
+                        <time class="time-remaining" id="time-remaining-display" data-testid="test-todo-time-remaining" aria-live="polite"></time>
+                    </div>
+
+                    <div class="actions">
+                        <label class="checkbox-container">
+                            <input type="checkbox" data-testid="test-todo-complete-toggle" id="complete-checkbox">
+                            <span class="checkmark"></span>
+                            <span class="sr-only">Mark as complete</span>
+                        </label>
+                        
+                        <button class="icon-btn" data-testid="test-todo-edit-button" aria-label="Edit Task">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                        
+                        <button class="icon-btn delete" data-testid="test-todo-delete-button" aria-label="Delete Task">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <div class="todo-body">
-                <p class="description" data-testid="test-todo-description">
-                    Finish the implementation of the Todo app using semantic HTML, CSS Grid, and responsive design principles. Ensure all automated tests pass.
-                </p>
-
-                <div class="tags-container" data-testid="test-todo-tags" role="list">
-                    <span class="tag" data-testid="test-todo-tag-work" role="listitem">Work</span>
-                    <span class="tag" data-testid="test-todo-tag-urgent" role="listitem">Urgent</span>
-                    <span class="tag" role="listitem">Design</span>
-                </div>
-            </div>
-
-            <div class="todo-footer">
-                <div class="date-info">
-                    <time class="due-date" id="due-date-display" data-testid="test-todo-due-date"></time>
-                    <time class="time-remaining" id="time-remaining-display" data-testid="test-todo-time-remaining" aria-live="polite"></time>
+            <!-- EDIT MODE -->
+            <form class="todo-edit-mode" id="todo-edit-mode" data-testid="test-todo-edit-form" style="display: none;">
+                <div class="form-group">
+                    <label for="edit-title-input">Title</label>
+                    <input type="text" id="edit-title-input" data-testid="test-todo-edit-title-input" class="form-input" placeholder="Enter task title" required>
                 </div>
 
-                <div class="actions">
-                    <label class="checkbox-container">
-                        <input type="checkbox" data-testid="test-todo-complete-toggle" id="complete-checkbox">
-                        <span class="checkmark"></span>
-                        <span class="sr-only">Mark as complete</span>
-                    </label>
-                    
-                    <button class="icon-btn" data-testid="test-todo-edit-button" aria-label="Edit Task">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                    </button>
-                    
-                    <button class="icon-btn delete" data-testid="test-todo-delete-button" aria-label="Delete Task">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                    </button>
+                <div class="form-group">
+                    <label for="edit-description-input">Description</label>
+                    <textarea id="edit-description-input" data-testid="test-todo-edit-description-input" class="form-textarea" placeholder="Enter task description" rows="4"></textarea>
                 </div>
-            </div>
+
+                <div class="form-group">
+                    <label for="edit-priority-select">Priority</label>
+                    <select id="edit-priority-select" data-testid="test-todo-edit-priority-select" class="form-select" required>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-due-date-input">Due Date</label>
+                    <input type="date" id="edit-due-date-input" data-testid="test-todo-edit-due-date-input" class="form-input" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" data-testid="test-todo-save-button">Save</button>
+                    <button type="button" class="btn-secondary" data-testid="test-todo-cancel-button" id="cancel-btn">Cancel</button>
+                </div>
+            </form>
         </article>
     </main>
 
